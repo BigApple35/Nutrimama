@@ -8,6 +8,11 @@ type RegisterRequest struct {
 	Role        string `json:"role" binding:"required"`
 }
 
+type LoginRequest struct {
+	Email    string `json:"email" binding:"required"`
+	Password string `json:"password" binding:"required"`
+}
+
 type UserResponse struct {
 	UserId     int       `json:"user_id" gorm:"primaryKey;autoIncrement"`
 	Email      string    `json:"email"`

@@ -2,7 +2,8 @@ package usecase
 
 import (
 	// "errors"
-	
+
+	"errors"
 	"nutrimama/internal/entity"
 	"nutrimama/internal/model"
 	"nutrimama/internal/model/converter"
@@ -52,6 +53,29 @@ func (u *UserUseCase) Create(req model.RegisterRequest) (*model.UserResponse, er
 		return nil, err
 	}
 
+	if err := c.Commit().Error; err != nil {
+		return nil, err
+	}
+
 	return converter.UserToResponse(&user, token), nil
 
+}
+
+func (u *UserUseCase) Login(email string, password string) (*model.UserResponse, error) {
+	db := u.DB
+	user, err := u.UserRepository.FindByEmail(db, email)
+	if err != nil {
+		return nil, err
+	}
+	if user == nil {
+		return nil, errors.New("user not found")
+	}
+	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil {
+		return nil, err
+	}
+	token, err := utils.GenerateToken(user.ID, user.Email)
+	if err != nil {
+		return nil, err
+	}
+	return converter.UserToResponse(user, token), nil
 }

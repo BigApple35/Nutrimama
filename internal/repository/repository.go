@@ -10,23 +10,23 @@ func (r *Repository[T]) Create(db *gorm.DB, entity *T) error {
 	return db.Create(entity).Error
 }
 
-func (r *Repository[T]) List() ([]T, error) {
+func (r *Repository[T]) List(db *gorm.DB) ([]T, error) {
 	var entities []T
-	err := r.DB.Find(&entities).Error
+	err := db.Find(&entities).Error
 	return entities, err
 	
 }
 
-func (r *Repository[T]) Get(id int) (*T, error) {
+func (r *Repository[T]) Get(db *gorm.DB, id int) (*T, error) {
 	var entity T
-	err := r.DB.First(&entity, id).Error
+	err := db.First(&entity, id).Error
 	return &entity, err
 }
 
-func (r *Repository[T]) Update(entity *T) error {
-	return r.DB.Save(entity).Error
+func (r *Repository[T]) Update(db *gorm.DB, entity *T) error {
+	return db.Save(entity).Error
 }
 
-func (r *Repository[T]) Delete(id int) error {
-	return r.DB.Delete(new(T), id).Error
+func (r *Repository[T]) Delete(db *gorm.DB, id int) error {
+	return db.Delete(new(T), id).Error
 }

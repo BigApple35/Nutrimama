@@ -2,6 +2,8 @@ package repository
 
 import (
 	"nutrimama/internal/entity"
+
+	"gorm.io/gorm"
 )
 
 type UserRepository struct {
@@ -14,11 +16,11 @@ func NewUserRepository() *UserRepository {
 	}
 }
 
-func (r *UserRepository) FindByEmail(email string) (*entity.User, error) {
+func (r *UserRepository) FindByEmail(db *gorm.DB, email string) (*entity.User, error) {
 	var user entity.User
-	err := r.DB.Where("email = ?", email).First(&user).Error
+	err := db.Where("email = ?", email).First(&user).Error
 	if err != nil {
 		return nil, err
 	}
 	return &user, nil
-}
+}	

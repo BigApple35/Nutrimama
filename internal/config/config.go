@@ -9,7 +9,7 @@ import (
 )
 
 func ConnectDB() (*gorm.DB, error) {
-	dsn := fmt.Sprintf("root@tcp(localhost:3306)/nutrimama?parseTime=true")
+	dsn := "root@tcp(localhost:3306)/nutrimama?parseTime=true"
 
     fmt.Printf("Connecting to database '%s' at %s:%s as user '%s'\n",
         os.Getenv("DB_NAME"),
