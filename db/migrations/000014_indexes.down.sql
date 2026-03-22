@@ -1,0 +1,15 @@
+DROP INDEX IF EXISTS idx_mothers_user_id;
+DROP INDEX IF EXISTS idx_pregnancies_mother_id;
+DROP INDEX IF EXISTS idx_children_pregnancy_id;
+DROP INDEX IF EXISTS idx_messages_consultant_id;
+DROP INDEX IF EXISTS idx_messages_mother_id;
+DROP INDEX IF EXISTS idx_nutrition_mother_id;
+DROP INDEX IF EXISTS idx_nutrition_child_id;
+DROP INDEX IF EXISTS idx_meal_plans_mother_id;
+DROP INDEX IF EXISTS idx_food_logs_meal_plan_id;
+DROP INDEX IF EXISTS idx_food_logs_food_id;
+DROP INDEX IF EXISTS idx_consultation_mother_id;
+DROP INDEX IF EXISTS idx_consultation_consultant_id;
+DROP INDEX IF EXISTS idx_user_bookmarks_user_id;
+DROP INDEX IF EXISTS idx_foods_nutrition_id;
+DROP INDEX IF EXISTS idx_user_bookmarks_edu_tools_id;

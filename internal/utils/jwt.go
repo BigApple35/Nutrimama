@@ -11,14 +11,16 @@
 	type Claims struct {
 		ID    int    `json:"id"`
 		Email string `json:"email"`
+		Role  string `json:"role"`
 		jwt.RegisteredClaims
 	}
 
-	func GenerateToken(ID int, email string) (string, error) {
+	func GenerateToken(ID int, email string, role string) (string, error) {
 		expirationTime := time.Now().Add(24 * time.Hour)
 		claims := &Claims{
 			ID  : ID,
 			Email: email,
+			Role: role,
 			RegisteredClaims: jwt.RegisteredClaims{
 				ExpiresAt: jwt.NewNumericDate(expirationTime),
 			},

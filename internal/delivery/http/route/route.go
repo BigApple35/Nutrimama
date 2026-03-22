@@ -8,8 +8,9 @@ import (
 )
 
 type RouteConfig struct {
-	App           *fiber.App
-	UserController *http.UserController
+	App                *fiber.App
+	UserController     *http.UserController
+	EduToolsController *http.EduToolsController
 }
 
 func (c *RouteConfig) Setup() {
@@ -28,4 +29,11 @@ func SetupProtectedRoutes(c *RouteConfig) {
 	route := c.App.Group("/api")
 	route.Use(middleware.AuthMiddleware(c.UserController.UserUseCase))
 	route.Get("/profile", c.UserController.Profile)
+
+	edu := route.Group("/edu-tools")
+	edu.Post("/", c.EduToolsController.Create)
+	edu.Get("/", c.EduToolsController.List)
+	edu.Get("/:id", c.EduToolsController.Get)
+	edu.Put("/:id", c.EduToolsController.Update)
+	edu.Delete("/:id", c.EduToolsController.Delete)
 }

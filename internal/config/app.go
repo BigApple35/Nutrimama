@@ -21,9 +21,14 @@ func Bootstrap(config *BootstrapConfig) {
 	userUseCase := usecase.NewUserUseCase(config.DB, userRepo)
 	userController := http.NewUserController(userUseCase)
 
+	eduToolsRepo := repository.NewEduToolsRepository()
+	eduToolsUseCase := usecase.NewEduToolsUseCase(config.DB, eduToolsRepo)
+	eduToolsController := http.NewEduToolsController(eduToolsUseCase)
+
 	routeConfig := &route.RouteConfig{
-		App:           config.App,
-		UserController: userController,
+		App:                config.App,
+		UserController:     userController,
+		EduToolsController: eduToolsController,
 	}
 	routeConfig.Setup()
 }

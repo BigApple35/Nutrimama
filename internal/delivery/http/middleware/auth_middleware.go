@@ -28,6 +28,7 @@ func AuthMiddleware(u *usecase.UserUseCase) fiber.Handler {
 
 		c.Locals("userID", claims.ID)
 		c.Locals("email", claims.Email)
+		c.Locals("role", claims.Role)
 
 		return c.Next()
 	}

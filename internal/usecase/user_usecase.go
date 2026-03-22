@@ -28,10 +28,10 @@ func NewUserUseCase(db *gorm.DB, UserRepository *repository.UserRepository) *Use
 
 func (u *UserUseCase) Create(req model.RegisterRequest) (*model.UserResponse, error) {
 	c := u.DB.Begin()
-	// existingUser, _ := u.UserRepository.FindByEmail(req.Email)
-	// if existingUser != nil {
-	// 	return nil, errors.New("email already exists")
-	// }
+	existingUser, _ := u.UserRepository.FindByEmail(c, req.Email)
+	if existingUser != nil {
+		return nil, errors.New("email already exists")
+	}
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
 	if err != nil {
 		return nil, err
@@ -48,7 +48,7 @@ func (u *UserUseCase) Create(req model.RegisterRequest) (*model.UserResponse, er
 		return nil, err
 	}
 
-	token, err := utils.GenerateToken(user.ID, user.Email)
+	token, err := utils.GenerateToken(user.ID, user.Email, user.Role)
 	if err != nil {
 		return nil, err
 	}
@@ -73,7 +73,7 @@ func (u *UserUseCase) Login(email string, password string) (*model.UserResponse,
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil {
 		return nil, err
 	}
-	token, err := utils.GenerateToken(user.ID, user.Email)
+	token, err := utils.GenerateToken(user.ID, user.Email, user.Role)
 	if err != nil {
 		return nil, err
 	}
