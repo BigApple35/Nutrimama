@@ -25,22 +25,8 @@ ALTER TABLE `messages`
     MODIFY `consultant_id` bigint UNSIGNED NULL,
     MODIFY `mother_id` bigint UNSIGNED NULL;
 
--- 6. Fix daily_tracking table
-ALTER TABLE `daily_tracking`
-    MODIFY `tracking_id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
-    MODIFY `mother_id` bigint UNSIGNED NULL,
-    MODIFY `pregnancy_id` bigint UNSIGNED NULL,
-    MODIFY `child_id` bigint UNSIGNED NULL;
-
--- 7. Fix weekly_tracking table
-ALTER TABLE `weekly_tracking`
-    MODIFY `tracking_id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
-    MODIFY `mother_id` bigint UNSIGNED NULL,
-    MODIFY `pregnancy_id` bigint UNSIGNED NULL,
-    MODIFY `child_id` bigint UNSIGNED NULL;
-
--- 8. Fix monthly_tracking table
-ALTER TABLE `monthly_tracking`
+-- 6. Fix user_tracking_logs table
+ALTER TABLE `user_tracking_logs`
     MODIFY `tracking_id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
     MODIFY `mother_id` bigint UNSIGNED NULL,
     MODIFY `pregnancy_id` bigint UNSIGNED NULL,
@@ -128,39 +114,15 @@ ADD CONSTRAINT `fk_messages_mother`
     FOREIGN KEY (`mother_id`) REFERENCES `mothers`(`mother_id`) 
     ON DELETE SET NULL ON UPDATE CASCADE;
 
--- 6. DAILY_TRACKING TABLE
-ALTER TABLE `daily_tracking`
-ADD CONSTRAINT `fk_daily_tracking_mother` 
+-- 6. USER_TRACKING_LOGS TABLE
+ALTER TABLE `user_tracking_logs`
+ADD CONSTRAINT `fk_tracking_logs_mother` 
     FOREIGN KEY (`mother_id`) REFERENCES `mothers`(`mother_id`) 
     ON DELETE SET NULL ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_daily_tracking_pregnancy` 
+ADD CONSTRAINT `fk_tracking_logs_pregnancy` 
     FOREIGN KEY (`pregnancy_id`) REFERENCES `pregnancies`(`pregnancy_id`) 
     ON DELETE SET NULL ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_daily_tracking_child` 
-    FOREIGN KEY (`child_id`) REFERENCES `children`(`child_id`) 
-    ON DELETE SET NULL ON UPDATE CASCADE;
-
--- 7. WEEKLY_TRACKING TABLE
-ALTER TABLE `weekly_tracking`
-ADD CONSTRAINT `fk_weekly_tracking_mother` 
-    FOREIGN KEY (`mother_id`) REFERENCES `mothers`(`mother_id`) 
-    ON DELETE SET NULL ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_weekly_tracking_pregnancy` 
-    FOREIGN KEY (`pregnancy_id`) REFERENCES `pregnancies`(`pregnancy_id`) 
-    ON DELETE SET NULL ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_weekly_tracking_child` 
-    FOREIGN KEY (`child_id`) REFERENCES `children`(`child_id`) 
-    ON DELETE SET NULL ON UPDATE CASCADE;
-
--- 8. MONTHLY_TRACKING TABLE
-ALTER TABLE `monthly_tracking`
-ADD CONSTRAINT `fk_monthly_tracking_mother` 
-    FOREIGN KEY (`mother_id`) REFERENCES `mothers`(`mother_id`) 
-    ON DELETE SET NULL ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_monthly_tracking_pregnancy` 
-    FOREIGN KEY (`pregnancy_id`) REFERENCES `pregnancies`(`pregnancy_id`) 
-    ON DELETE SET NULL ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_monthly_tracking_child` 
+ADD CONSTRAINT `fk_tracking_logs_child` 
     FOREIGN KEY (`child_id`) REFERENCES `children`(`child_id`) 
     ON DELETE SET NULL ON UPDATE CASCADE;
 

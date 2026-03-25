@@ -11,6 +11,7 @@ type RouteConfig struct {
 	App                *fiber.App
 	UserController     *http.UserController
 	EduToolsController *http.EduToolsController
+	TrackingController *http.TrackingController
 }
 
 func (c *RouteConfig) Setup() {
@@ -32,6 +33,7 @@ func SetupProtectedRoutes(c *RouteConfig) {
 	route := c.App.Group("/api")
 	route.Use(middleware.AuthMiddleware(c.UserController.UserUseCase))
 	route.Get("/profile", c.UserController.Profile)
+	route.Put("/profile/edit", c.UserController.EditProfile)
 
 	edu := route.Group("/edu-tools")
 	// Admin only endpoints
@@ -39,4 +41,7 @@ func SetupProtectedRoutes(c *RouteConfig) {
 	edu.Post("/", adminMiddleware, c.EduToolsController.Create)
 	edu.Put("/:id", adminMiddleware, c.EduToolsController.Update)
 	edu.Delete("/:id", adminMiddleware, c.EduToolsController.Delete)
+
+	tracking := route.Group("/tracking")
+	tracking.Post("/", c.TrackingController.SubmitTracking)
 }

@@ -15,14 +15,23 @@ import (
 )
 
 type UserUseCase struct {
-	DB              *gorm.DB
-	UserRepository  *repository.UserRepository
+	DB                   *gorm.DB
+	UserRepository       *repository.UserRepository
+	MotherRepository     *repository.MotherRepository
+	ConsultantRepository *repository.ConsultantRepository
 }
 
-func NewUserUseCase(db *gorm.DB, UserRepository *repository.UserRepository) *UserUseCase {
+func NewUserUseCase(
+	db *gorm.DB, 
+	userRepository *repository.UserRepository,
+	motherRepository *repository.MotherRepository,
+	consultantRepository *repository.ConsultantRepository,
+) *UserUseCase {
 	return &UserUseCase{
-		DB:             db,
-		UserRepository: UserRepository,
+		DB:                   db,
+		UserRepository:       userRepository,
+		MotherRepository:     motherRepository,
+		ConsultantRepository: consultantRepository,
 	}
 }
 
@@ -78,4 +87,65 @@ func (u *UserUseCase) Login(email string, password string) (*model.UserResponse,
 		return nil, err
 	}
 	return converter.UserToResponse(user, token), nil
+}
+
+func (u *UserUseCase) UpdateMotherProfile(userId int, req model.EditMotherProfileRequest) (*entity.Mother, error) {
+	c := u.DB.Begin()
+
+	mother, err := u.MotherRepository.FindByUserId(c, userId)
+	if err != nil {
+		c.Rollback()
+		return nil, errors.New("mother profile not found")
+	}
+
+	mother.FullName = req.FullName
+	if req.BloodType != nil {
+		mother.BloodType = req.BloodType
+	}
+	if req.BirthDate != nil {
+		mother.BirthDate = req.BirthDate
+	}
+	if req.MedicalHistory != nil {
+		mother.MedicalHistory = req.MedicalHistory
+	}
+	if req.Height != nil {
+		mother.Height = req.Height
+	}
+
+	if err := u.MotherRepository.Update(c, mother); err != nil {
+		c.Rollback()
+		return nil, err
+	}
+
+	if err := c.Commit().Error; err != nil {
+		return nil, err
+	}
+
+	return mother, nil
+}
+
+func (u *UserUseCase) UpdateConsultantProfile(userId int, req model.EditConsultantProfileRequest) (*entity.Consultant, error) {
+	c := u.DB.Begin()
+
+	consultant, err := u.ConsultantRepository.FindByUserId(c, userId)
+	if err != nil {
+		c.Rollback()
+		return nil, errors.New("consultant profile not found")
+	}
+
+	consultant.FullName = req.FullName
+	if req.FacilityName != nil {
+		consultant.FacilityName = req.FacilityName
+	}
+
+	if err := u.ConsultantRepository.Update(c, consultant); err != nil {
+		c.Rollback()
+		return nil, err
+	}
+
+	if err := c.Commit().Error; err != nil {
+		return nil, err
+	}
+
+	return consultant, nil
 }

@@ -29,7 +29,7 @@ func (c *EduToolsController) Create(ctx *fiber.Ctx) error {
 	if err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 	}
-	return utils.SuccessResponse(ctx, fiber.StatusCreated, "EduTools created successfully", res)
+	return utils.SuccessResponse(ctx, fiber.StatusCreated, "Request Successfull", res)
 }
 
 func (c *EduToolsController) Update(ctx *fiber.Ctx) error {
@@ -48,7 +48,7 @@ func (c *EduToolsController) Update(ctx *fiber.Ctx) error {
 	if err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 	}
-	return utils.SuccessResponse(ctx, fiber.StatusOK, "EduTools updated successfully", res)
+	return utils.SuccessResponse(ctx, fiber.StatusOK, "Request Successfull", res)
 }
 
 func (c *EduToolsController) Get(ctx *fiber.Ctx) error {
@@ -61,7 +61,7 @@ func (c *EduToolsController) Get(ctx *fiber.Ctx) error {
 	if err != nil {
 		return ctx.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": err.Error()})
 	}
-	return utils.SuccessResponse(ctx, fiber.StatusOK, "EduTools fetched successfully", res)
+	return utils.SuccessResponse(ctx, fiber.StatusOK, "Request Successfull", res)
 }
 
 func (c *EduToolsController) List(ctx *fiber.Ctx) error {
@@ -69,7 +69,7 @@ func (c *EduToolsController) List(ctx *fiber.Ctx) error {
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
-	return utils.SuccessResponse(ctx, fiber.StatusOK, "EduTools fetched successfully", res)
+	return utils.SuccessResponse(ctx, fiber.StatusOK, "Request Successfull", res)
 }
 
 func (c *EduToolsController) Delete(ctx *fiber.Ctx) error {
@@ -82,5 +82,5 @@ func (c *EduToolsController) Delete(ctx *fiber.Ctx) error {
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
-	return utils.SuccessResponse(ctx, fiber.StatusOK, "EduTools deleted successfully", nil)
+	return utils.SuccessResponse(ctx, fiber.StatusOK, "Request Successfull", nil)
 }
