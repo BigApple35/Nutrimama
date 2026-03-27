@@ -18,7 +18,7 @@ WORKDIR /app
 
 COPY --from=builder /app/bin/Nutrimama .
 
-ARG APPPORT=8080
+ARG APPPORT=3014
 EXPOSE ${APPPORT}
 
 ENTRYPOINT [ "./Nutrimama" ]
