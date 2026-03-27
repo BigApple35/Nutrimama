@@ -1,6 +1,6 @@
 services:
   app:
-    image: valentinusdelvin/nutrimama:latest
+    image: valentinusdelvin/nutrimama:main
     container_name: daris_be
     restart: unless-stopped
     env_file: .env
