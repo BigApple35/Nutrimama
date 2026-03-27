@@ -11,9 +11,11 @@ import (
 
 func main() {
 	db, err := config.ConnectDB()
-	godotenvErr := godotenv.Load("./.env")
-	if godotenvErr != nil {
-		panic("Failed to load .env file: " + godotenvErr.Error())
+	if (os.Getenv("APP_ENV")) != "production" {
+		godotenvErr := godotenv.Load("./.env")
+		if godotenvErr != nil {
+			panic("Failed to load .env file: " + godotenvErr.Error())
+		}
 	}
 
 	app := fiber.New()
