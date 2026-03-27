@@ -1,0 +1,15 @@
+services:
+  app:
+    build:
+      container_name: daris_be
+      restart: unless-stopped
+      env_file: .env
+      dockerfile: Dockerfile
+    ports:
+      - "3009:{APPPORT}"
+    networks:
+      - mariadb_network
+
+networks:
+  mariadb_network:
+    external: true
