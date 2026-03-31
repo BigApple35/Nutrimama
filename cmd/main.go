@@ -10,11 +10,12 @@ import (
 )
 
 func main() {
-	db, err := config.ConnectDB()
-	godotenvErr := godotenv.Load("./.env")
+	godotenvErr := godotenv.Load(".env")
 	if godotenvErr != nil {
 		panic("Failed to load .env file: " + godotenvErr.Error())
 	}
+
+	db, err := config.ConnectDB()
 
 	app := fiber.New()
 	config.Bootstrap(&config.BootstrapConfig{
