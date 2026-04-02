@@ -2,7 +2,7 @@ CREATE TABLE questions (
     question_id INT AUTO_INCREMENT PRIMARY KEY,
     question_text VARCHAR(500) NOT NULL,
     question_key VARCHAR(100) UNIQUE NOT NULL, -- e.g., "protein_animal", "water_intake"
-    category VARCHAR(50), -- e.g., "nutrition", "supplement", "symptom"
+    category VARCHAR(50), -- e.g.,daily, weekly, montly
     input_type VARCHAR(50) CHECK (input_type IN (
         'single_choice', 
         'multiple_choice', 
