@@ -1,5 +1,5 @@
 CREATE TABLE questions (
-    question_id INT AUTO_INCREMENT PRIMARY KEY,
+    question_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     question_text VARCHAR(500) NOT NULL,
     question_key VARCHAR(100) UNIQUE NOT NULL, -- e.g., "protein_animal", "water_intake"
     category VARCHAR(50), -- e.g.,daily, weekly, montly
@@ -18,7 +18,7 @@ CREATE TABLE questions (
 );
 
 CREATE TABLE question_options (
-    option_id INT AUTO_INCREMENT PRIMARY KEY,
+    option_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     question_id INT REFERENCES questions(question_id) ON DELETE CASCADE,
     option_value VARCHAR(100) NOT NULL, 
     option_label VARCHAR(100) NOT NULL, 
@@ -28,7 +28,7 @@ CREATE TABLE question_options (
 );
 
 CREATE TABLE user_tracking_logs (
-    tracking_id INT AUTO_INCREMENT PRIMARY KEY,
+    tracking_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     mother_id INT REFERENCES mothers(mother_id),
     pregnancy_id INT REFERENCES pregnancies(pregnancy_id),
     child_id INT REFERENCES children(child_id),
