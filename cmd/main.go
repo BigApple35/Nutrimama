@@ -10,9 +10,16 @@ import (
 )
 
 func main() {
-	godotenvErr := godotenv.Load(".env")
-	if godotenvErr != nil {
-		panic("Failed to load .env file: " + godotenvErr.Error())
+	if (os.Getenv("APP_ENV")) != "production" {
+		godotenvErr := godotenv.Load("./.env")
+		if godotenvErr != nil {
+			panic("Failed to load .env file: " + godotenvErr.Error())
+		}
+	}
+
+	db, err := config.ConnectDB()
+	if err != nil {
+		panic("Failed to connect to database: " + err.Error())
 	}
 
 	db, err := config.ConnectDB()
