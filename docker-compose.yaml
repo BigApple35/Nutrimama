@@ -1,0 +1,32 @@
+services:
+  app:
+    image: valentinusdelvin/nutrimama:main
+    container_name: daris_be
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "127.0.0.1:3014:${APPPORT}"
+    networks:
+      - mariadb_network
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    environment:
+      - TZ=Asia/Jakarta
+
+  migrate:
+    image: migrate/migrate
+    container_name: daris_migrate
+    restart: "no"
+    env_file: .env
+    volumes:
+      - ./db/migrations:/migrations
+    command: >
+      -path=/migrations
+      -database "mysql://${DB_USER}:${DB_PASSWORD}@tcp(${DB_HOST}:${DB_PORT})/${DB_NAME}"
+      up
+    networks:
+      - mariadb_network
+
+networks:
+  mariadb_network:
+    external: true

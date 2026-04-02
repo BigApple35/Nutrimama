@@ -9,19 +9,19 @@ import (
 )
 
 func ConnectDB() (*gorm.DB, error) {
-	host := os.Getenv("DB_HOST")
-	port := os.Getenv("DB_PORT")
-	user := os.Getenv("DB_USER")
-	pass := os.Getenv("DB_PASSWORD")
-	dbname := os.Getenv("DB_NAME")
+	dbUser := os.Getenv("DB_USER")
+	dbPassword := os.Getenv("DB_PASSWORD")
+	dbHost := os.Getenv("DB_HOST")
+	dbPort := os.Getenv("DB_PORT")
+	dbName := os.Getenv("DB_NAME")
 
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", user, pass, host, port, dbname)
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", dbUser, dbPassword, dbHost, dbPort, dbName)
 
-    fmt.Printf("Connecting to database '%s' at %s:%s as user '%s'\n",
-        os.Getenv("DB_NAME"),
-        os.Getenv("DB_HOST"),
-        os.Getenv("DB_PORT"),
-        os.Getenv("DB_USER"),
-    )
-    return gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	fmt.Printf("Connecting to database '%s' at %s:%s as user '%s'\n",
+		dbName,
+		dbHost,
+		dbPort,
+		dbUser,
+	)
+	return gorm.Open(mysql.Open(dsn), &gorm.Config{})
 }
