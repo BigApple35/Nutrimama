@@ -1,6 +1,5 @@
 CREATE TABLE questions (
     question_id INT AUTO_INCREMENT PRIMARY KEY,
-    schedule_id INT REFERENCES tracking_schedules(schedule_id) ON DELETE CASCADE,
     question_text VARCHAR(500) NOT NULL,
     question_key VARCHAR(100) UNIQUE NOT NULL, -- e.g., "protein_animal", "water_intake"
     category VARCHAR(50), -- e.g., "nutrition", "supplement", "symptom"
