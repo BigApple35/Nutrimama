@@ -13,7 +13,7 @@ type Question struct {
 	IsRequired   *bool            `gorm:"column:is_required;default:true" json:"is_required"`
 	DisplayOrder *int             `gorm:"column:display_order" json:"display_order"`
 	CreatedAt    time.Time        `gorm:"column:created_at" json:"created_at"`
-	Options      []QuestionOption `gorm:"foreignKey:QuestionID;references:QuestionID" json:"options"`
+	QuestionOptions []QuestionOption `gorm:"foreignKey:QuestionID" json:"options"`
 }
 
 func (Question) TableName() string {
@@ -22,13 +22,14 @@ func (Question) TableName() string {
 
 type QuestionOption struct {
 	OptionID     int     `gorm:"column:option_id;primaryKey;autoIncrement" json:"option_id"`
-	QuestionID   *int    `gorm:"column:question_id" json:"question_id"`
+	QuestionID   int     `gorm:"column:question_id" json:"question_id"`
 	OptionValue  string  `gorm:"column:option_value" json:"option_value"`
 	OptionLabel  string  `gorm:"column:option_label" json:"option_label"`
 	IconEmoji    *string `gorm:"column:icon_emoji" json:"icon_emoji"`
 	DisplayOrder *int    `gorm:"column:display_order" json:"display_order"`
 	IsDefault    *bool   `gorm:"column:is_default;default:false" json:"is_default"`
 }
+
 
 func (QuestionOption) TableName() string {
 	return "question_options"
